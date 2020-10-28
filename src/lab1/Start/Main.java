@@ -25,7 +25,6 @@ public class Main extends Application {
             primaryStage.setX(event.getScreenX() - x);
             primaryStage.setY(event.getScreenY() - y);
         });
-
         primaryStage.show();
     }
 

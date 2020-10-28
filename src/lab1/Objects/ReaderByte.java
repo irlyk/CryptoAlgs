@@ -14,8 +14,8 @@ public class ReaderByte {
             File file = new File(file_path);
             return Files.readAllBytes(file.toPath());
         } catch (IOException e) {
-            System.out.println("\n######\nException! Ошибка - не  удалось прочитать файл");
-            System.out.println("Filepath = '" + file_path + "'\n######");
+            System.err.println("\n######\nException! Ошибка - не  удалось прочитать файл");
+            System.err.println("Filepath = '" + file_path + "'\n######");
             return null;
         }
     }
@@ -26,8 +26,8 @@ public class ReaderByte {
             stream.write(array);
             return true;
         } catch (IOException e) {
-            System.out.println("\n######\nException! Ошибка - не  удалось записать в файл");
-            System.out.println("Filepath = '" + file_path + "'\n######");
+            System.err.println("\n######\nException! Ошибка - не  удалось записать в файл");
+            System.err.println("Filepath = '" + file_path + "'\n######");
             return false;
         }
     }

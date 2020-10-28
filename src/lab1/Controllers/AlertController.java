@@ -8,6 +8,15 @@ public class AlertController {
         FileIO
     }
 
+    public static void showErrorAlert(WarningTitles title, String message) throws Exception {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(getTitle(title));
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        alert.showAndWait();
+    }
+
     public static void showWarningAlert(WarningTitles title, String message) throws Exception {
         Alert alert = new Alert(Alert.AlertType.WARNING);
         alert.setTitle(getTitle(title));
