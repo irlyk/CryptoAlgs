@@ -15,20 +15,13 @@ import java.util.ResourceBundle;
 
 public class Controller {
 
-    public enum ciphers {
-        Gamming,
-        Permutation,
-        Substitution,
-        XOR,
-        OnetimePad
-    }
-
     ObservableList<String> ciphers = FXCollections.observableArrayList(
             "Gamming",
             "Permutation",
             "substitution",
             "XOR",
-            "One-time pad"
+            "One-time pad",
+            "Round Encrypt"
     );
 
     private ByteText read_text;
@@ -122,6 +115,52 @@ public class Controller {
     }
 
 
+    public void readTextButtonPressed() throws Exception {
+        if (tfInputFileName.getText().equals("")) {
+            AlertController.showWarningAlert(AlertController.WarningTitles.FileIO, "Не распознано поле для ввода");
+            System.err.println("Не распознано поле для ввода");
+            return;
+        }
+
+        String absolute_path = SourcePtah + tfInputFileName.getText();
+        read_text = new ByteText();
+        ReaderByte br = new ReaderByte();
+        read_text.setByte_text(br.readFile_byte(absolute_path));
+
+        if (read_text.getByte_text() == null) {
+            AlertController.showErrorAlert(AlertController.WarningTitles.FileIO, "Не удалось прочиать файл: " + SourcePtah + tfInputFileName.getText());
+            return;
+        }
+        System.out.println("Считан файл: " + absolute_path);
+        if (read_text.toString().length() > 300) {
+            taReadText.setText(read_text.toString().substring(0, 300));
+        } else {
+            taReadText.setText(read_text.toString());
+        }
+    }
+
+    public void encTextButtonPressed() throws Exception {
+        if (read_text == null || read_text.getByte_text() == null) {
+            AlertController.showWarningAlert(AlertController.WarningTitles.Cipher, "Нельзя зашифровать пустой текс");
+            System.out.println("read_text пустое");
+            return;
+        }
+        encrypted_text = new ByteText();
+        byte[] encryption = encrypt_with_chosen_cipher(true);
+        if (encryption == null) {
+            AlertController.showWarningAlert(AlertController.WarningTitles.Cipher, "Шифровка вернула пустой текст");
+            System.out.println("EN: Массив = NULL");
+            return;
+        }
+        encrypted_text.setByte_text(encryption);
+        System.out.println("Текст зашифрован");
+        if (encrypted_text.toString().length() > 300) {
+            taEncryptText.setText(encrypted_text.toString().substring(0, 300));
+        } else {
+            taEncryptText.setText(encrypted_text.toString());
+        }
+    }
+
     public void actionButtonPressed(ActionEvent actionEvent) throws Exception {
 
         Object source = actionEvent.getSource();
@@ -136,49 +175,11 @@ public class Controller {
 
         switch (clickedButton.getId()) {
             case "btnReadText":
-                if (tfInputFileName.getText().equals("")) {
-                    AlertController.showWarningAlert(AlertController.WarningTitles.FileIO, "Не распознано поле для ввода");
-                    System.err.println("Не распознано поле для ввода");
-                    return;
-                }
-
-                String absolute_path = SourcePtah + tfInputFileName.getText();
-                read_text = new ByteText();
-                ReaderByte br = new ReaderByte();
-                read_text.setByte_text(br.readFile_byte(absolute_path));
-
-                if (read_text.getByte_text() == null) {
-                    AlertController.showErrorAlert(AlertController.WarningTitles.FileIO, "Не удалось прочиать файл: " + SourcePtah + tfInputFileName.getText());
-                    return;
-                }
-                System.out.println("Считан файл: " + absolute_path);
-                if (read_text.toString().length() > 300) {
-                    taReadText.setText(read_text.toString().substring(0, 300));
-                } else {
-                    taReadText.setText(read_text.toString());
-                }
+                readTextButtonPressed();
                 break;
 
             case "btnEncrypt":
-                if (read_text == null || read_text.getByte_text() == null) {
-                    AlertController.showWarningAlert(AlertController.WarningTitles.Cipher, "Нельзя зашифровать пустой текс");
-                    System.out.println("read_text пустое");
-                    return;
-                }
-                encrypted_text = new ByteText();
-                byte[] encryption = encrypt_with_chosen_cipher(true);
-                if (encryption == null) {
-                    AlertController.showWarningAlert(AlertController.WarningTitles.Cipher, "Шифровка вернула пустой текст");
-                    System.out.println("EN: Массив = NULL");
-                    return;
-                }
-                encrypted_text.setByte_text(encryption);
-                System.out.println("Текст зашифрован");
-                if (encrypted_text.toString().length() > 300) {
-                    taEncryptText.setText(encrypted_text.toString().substring(0, 300));
-                } else {
-                    taEncryptText.setText(encrypted_text.toString());
-                }
+                encTextButtonPressed();
                 break;
 
             case "btnDecrypt":
@@ -207,41 +208,34 @@ public class Controller {
 
             case "btnWriteEncrypt":
                 if(encrypted_text == null || encrypted_text.getByte_text() == null) {
-                    AlertController.showWarningAlert(AlertController.WarningTitles.Cipher, "Encrypt_text is empty");
+                    AlertController.showErrorAlert(AlertController.WarningTitles.Cipher, "Encrypt_text is empty");
                     System.out.println("Encrypt_text is empty");
                     return;
                 }
-                if (!tfOutputFileName.getText().equals("")) {
+                if (tfOutputFileName.getText().equals("")) {
                     AlertController.showWarningAlert(AlertController.WarningTitles.Cipher, "No output filename");
                     System.out.println("No output filename");
                     return;
                 }
-                if ( encrypted_text != null && encrypted_text.getByte_text() != null) {
-                    ReaderByte rb = new ReaderByte();
-                    rb.writeFile_byte(EncPath + tfOutputFileName.getText(), encrypted_text.getByte_text());
-                    System.out.println("Encrypted text write in: " + tfOutputFileName.getText());
-                } else {
-                    AlertController.showWarningAlert(AlertController.WarningTitles.Cipher, "Decrypted is null");
-                    System.err.println("Decrypted is null");
-                }
+                ReaderByte encWriter = new ReaderByte();
+                encWriter.writeFile_byte(EncPath + tfOutputFileName.getText(), encrypted_text.getByte_text());
+                System.out.println("Encrypted text write in: " + tfOutputFileName.getText());
                 break;
 
             case "btnWriteDecrypt":
-                if(decrypted_text == null || decrypted_text.getByte_text() != null){
-                    if (!tfOutputFileName.getText().equals("")){
-                        if (decrypted_text != null && decrypted_text.getByte_text() != null) {
-                            ReaderByte rb = new ReaderByte();
-                            rb.writeFile_byte(DecPath + tfOutputFileName.getText(), decrypted_text.getByte_text());
-                            System.out.println("Decrypted text write in: " + tfOutputFileName.getText());
-                        } else {
-                            System.out.println("Decrypted is null");
-                        }
-                    } else {
-                        System.out.println("No output filename");
-                    }
-                } else {
-                    System.out.println("Decrypt_text is empty");
+                if (decrypted_text == null || decrypted_text.getByte_text() == null) {
+                    AlertController.showErrorAlert(AlertController.WarningTitles.Cipher, "Decrypted text is empty");
+                    System.err.println("Decrypt_text is empty");
+                    return;
                 }
+                if (tfOutputFileName.getText().equals("")) {
+                    AlertController.showWarningAlert(AlertController.WarningTitles.FileIO, "No output filename");
+                    System.out.println("No output filename");
+                    return;
+                }
+                ReaderByte decWriter = new ReaderByte();
+                decWriter.writeFile_byte(DecPath + tfOutputFileName.getText(), decrypted_text.getByte_text());
+                System.out.println("Decrypted text write in: " + tfOutputFileName.getText());
                 break;
         }
     }
