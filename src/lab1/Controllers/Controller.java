@@ -7,6 +7,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import lab1.Ciphers.GammingСipher;
 import lab1.Ciphers.Permutation;
+import lab1.Ciphers.Substitution;
 import lab1.Objects.ByteText;
 import lab1.Objects.ReaderByte;
 
@@ -104,6 +105,8 @@ public class Controller {
                 else result = Permutation._permutation_decrypt(key, text);
                 break;
             case "substitution":
+                if (flag) result = Substitution._substitution_encrypt(key, text);
+                else result = Substitution._substitution_decrypt(key, text);
                 break;
             case "XOR":
                 result = GammingСipher.xor(key, text);
