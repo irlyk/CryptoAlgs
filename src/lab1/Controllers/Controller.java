@@ -5,9 +5,10 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import lab1.Ciphers.GammingСipher;
+import lab1.Ciphers.GammingCipher;
 import lab1.Ciphers.Permutation;
 import lab1.Ciphers.Substitution;
+import lab1.Ciphers.XOR;
 import lab1.Objects.ByteText;
 import lab1.Objects.ReaderByte;
 
@@ -97,8 +98,8 @@ public class Controller {
         else text = encrypted_text.getByte_text();
         switch (cipher){
             case "Gamming":
-                if (flag) result = GammingСipher._gamma_encrypt(key, text);
-                else result = GammingСipher._gamma_decrypt(key, text);
+                if (flag) result = GammingCipher._gamma_encrypt(key, text);
+                else result = GammingCipher._gamma_decrypt(key, text);
                 break;
             case "Permutation":
                 if (flag) result = Permutation._permutation_encrypt(key, text);
@@ -109,7 +110,7 @@ public class Controller {
                 else result = Substitution._substitution_decrypt(key, text);
                 break;
             case "XOR":
-                result = GammingСipher.xor(key, text);
+                result = XOR._xor(key, text);
                 break;
             case "One-time pad":
                 break;
