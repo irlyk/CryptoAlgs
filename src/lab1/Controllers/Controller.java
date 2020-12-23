@@ -22,7 +22,6 @@ public class Controller {
             "Permutation",
             "substitution",
             "XOR",
-            "One-time pad",
             "Round Encrypt"
     );
 
@@ -73,19 +72,8 @@ public class Controller {
         SourcePtah = "src\\lab1\\Files\\Input\\";
         cbCipher.setItems(ciphers);
         cbCipher.setValue(ciphers.get(0));
-        cbCipher.setOnAction(e -> comboBox_choise());
     }
 
-    private void comboBox_choise(){
-        String cipher = cbCipher.getValue();
-        switch (cipher){
-            case "One-time pad":
-                tfKey.setEditable(false);
-                break;
-            default:
-                tfKey.setEditable(true);
-        }
-    }
 
     private byte[] encrypt_with_chosen_cipher(boolean flag){
         String cipher = cbCipher.getValue();
@@ -111,8 +99,6 @@ public class Controller {
                 break;
             case "XOR":
                 result = XOR._xor(key, text);
-                break;
-            case "One-time pad":
                 break;
         }
         return result;
