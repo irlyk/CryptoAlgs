@@ -23,4 +23,15 @@ public class GammingCipher {
         }
         return result;
     }
+
+    public static void main(String[] args) {
+//        String s = "приве";
+//        String key = "key";
+//        byte[] to_enc = s.getBytes();
+//        to_enc = XOR.xor_cbc(to_enc, CBC.init);
+//        byte[] enc = _gamma_encrypt(key, to_enc);
+//        byte[] dec = _gamma_decrypt(key, enc);
+//        dec = XOR.xor_cbc(dec, CBC.init);
+//        System.out.println(new String(dec));
+    }
 }

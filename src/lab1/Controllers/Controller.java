@@ -103,6 +103,10 @@ public class Controller {
                 if (flag) result = ROL._rol_encrypt(key, text);
                 else result = ROL._rol_decrypt(key, text);
                 break;
+            case "Round Encrypt":
+                if (flag) result = CBC.encrypt_v2(key, text, 10);
+                else result = CBC.decrypt_v2(key, text, 10);
+                break;
         }
         return result;
     }

@@ -13,18 +13,9 @@ public class XOR {
     }
 
     public static byte[] xor_cbc(byte[] arr1, byte[] arr2){
-        int arr_len = arr1.length;
-        if (arr2.length > arr_len)
-            arr_len = arr2.length;
-        byte[] result = new byte[arr_len];
-        for (int i = 0; i < arr_len; i++) {
-            if ( i < arr1.length && i < arr2.length)
-                result[i] = (byte) (arr1[i] ^ arr2[i]);
-            else if (i < arr1.length) {
-                result[i] = arr1[i];
-            } else {
-                result[i] = arr2[i];
-            }
+        byte[] result = new byte[arr1.length];
+        for (int i = 0; i < arr1.length; i++) {
+            result[i] = (byte) (arr1[i] ^ arr2[i]);
         }
         return result;
     }
