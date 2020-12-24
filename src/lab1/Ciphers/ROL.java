@@ -51,6 +51,7 @@ public class ROL {
             return null;
         }
     }
+
     public static void main(String[] args) {
 //        String s = "привет";
 //        byte shift = 00000001;
@@ -98,5 +99,4 @@ public class ROL {
 //        System.out.println("\nДешифрованное сообщение");
 //        System.out.println(new String(dec));
     }
-
 }

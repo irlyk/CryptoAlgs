@@ -54,7 +54,7 @@ public class Permutation {
         }
     }
 
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
 //        String str = "приветмамка";
 //        String key = "340125";
 //        byte[] enc = str.getBytes();
@@ -82,5 +82,5 @@ public class Permutation {
 //        System.out.println();
 //        System.out.println("Дешифровка в String:");
 //        System.out.println(res1);
-//    }
+    }
 }

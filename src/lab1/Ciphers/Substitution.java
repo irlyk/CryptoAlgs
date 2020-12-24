@@ -50,7 +50,7 @@ public class Substitution {
        }
    }
 
-//    public static void main(String[] args) {
+    public static void main(String[] args) {
 //        String t = "Привет";
 //        String key = "3";
 //
@@ -76,5 +76,5 @@ public class Substitution {
 //
 //        System.out.println();
 //        System.out.println(new String(dec));
-//    }
+    }
 }
